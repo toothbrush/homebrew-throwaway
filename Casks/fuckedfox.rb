@@ -29,15 +29,10 @@ cask "fuckedfox" do
   ]
 
   app "Firefox.app"
+
   # shim script (https://github.com/Homebrew/homebrew-cask/issues/18809)
   shimscript = "#{staged_path}/firefox.wrapper.sh"
   binary shimscript, target: "firefox"
-
-  resource "tree_style_tabs" do
-    # From https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
-    url "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"
-    sha1 "f0bc6a44d406a57c831044aa45e0965c9475caf1"
-  end
 
   preflight do
     File.write shimscript, <<~EOS
@@ -109,13 +104,8 @@ cask "fuckedfox" do
     extension_path = "#{staged_path}/Firefox.app/Contents/Resources/distribution/extensions"
     FileUtils.mkdir_p(extension_path)
 
-    # Additional downloads can be defined as resources (see above).
-    # The stage method will create a temporary directory and yield
-    # to a block.
-    resource("tree_style_tabs").stage(extension_path)
-    FileUtils.mv(extension_path.join("tree_style_tab-4.2.7.xpi"),
-                 extension_path.join("treestyletab@piro.sakura.ne.jp.xpi"))
-
+    # XXX(pd) 20251101: Wow this is gross.
+    IO.copy_stream(open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"), extension_path.join("treestyletab@piro.sakura.ne.jp.xpi"))
     # }}}
   end
 
