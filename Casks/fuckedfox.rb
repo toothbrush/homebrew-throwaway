@@ -106,7 +106,11 @@ cask "fuckedfox" do
 
     # XXX(pd) 20251101: Wow this is gross.
     require 'open-uri'
-    IO.copy_stream(open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"), extension_path.join("treestyletab@piro.sakura.ne.jp.xpi"))
+    open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi") do |image|
+      File.open("#{extension_path}/treestyletab@piro.sakura.ne.jp.xpi", "wb") do |file|
+        file.write(image.read)
+      end
+    end
     # }}}
   end
 
