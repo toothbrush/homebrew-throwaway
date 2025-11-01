@@ -97,20 +97,29 @@ cask "fuckedfox" do
     end
     # }}}
 
-    # Addons
-    # TODO addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
+    # Addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
     # {{{
 
     extension_path = "#{staged_path}/Firefox.app/Contents/Resources/distribution/extensions"
     FileUtils.mkdir_p(extension_path)
 
+    extensions = [
+      { uri: "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi", id: "treestyletab@piro.sakura.ne.jp" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/file/3535009/redirector-3.5.3.xpi", id: "redirector@einaregilsson.com" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/file/3582006/saka_key-1.26.3.xpi", id: "{46104586-98c3-407e-a349-290c9ff3594d}" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/file/4598854/ublock_origin-1.67.0.xpi", id: "uBlock0@raymondhill.net" },
+    ]
+
     # XXX(pd) 20251101: Wow this is gross.
     require 'uri'
     require 'open-uri'
-    URI.open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi") do |image|
-      File.open("#{extension_path}/treestyletab@piro.sakura.ne.jp.xpi", "wb") do |file|
-        file.write(image.read)
+    extensions.each do |e|
+      URI.open(e.uri) do |ext_xpi|
+        File.open("#{extension_path}/#{e.id}.xpi", "wb") do |file|
+          file.write(ext_xpi.read)
+        end
       end
+      puts "Installed #{e.id}..."
     end
     # }}}
   end
