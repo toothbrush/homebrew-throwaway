@@ -50,6 +50,7 @@ cask "fuckedfox" do
     # XXX(pd) 20251101: Attempt to .. set things up reasonably.
 
     # distribution policies - https://mozilla.github.io/policy-templates/
+    # See also https://github.com/mozilla/policy-templates/blob/master/linux/policies.json
     # {{{
     policies = {
       "policies": {
@@ -70,6 +71,9 @@ cask "fuckedfox" do
       f.write(policies.to_json)
     end
     # }}}
+
+    # TODO userChrome.css
+    # TODO addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
 
     # AutoConfig - https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
     # {{{
