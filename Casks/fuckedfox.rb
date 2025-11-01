@@ -114,12 +114,12 @@ cask "fuckedfox" do
     require 'uri'
     require 'open-uri'
     extensions.each do |e|
-      URI.open(e.uri) do |ext_xpi|
-        File.open("#{extension_path}/#{e.id}.xpi", "wb") do |file|
+      URI.open(e[:uri]) do |ext_xpi|
+        File.open("#{extension_path}/#{e[:id]}.xpi", "wb") do |file|
           file.write(ext_xpi.read)
         end
       end
-      puts "Installed #{e.id}..."
+      puts "Installed #{e[:id]}..."
     end
     # }}}
   end
