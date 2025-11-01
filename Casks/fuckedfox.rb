@@ -51,6 +51,16 @@ cask "fuckedfox" do
 
     # XXX(pd) 20251101: Attempt to .. set things up reasonably.
 
+    # Addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
+    # {{{
+    extensions = [
+      { uri: "https://addons.mozilla.org/firefox/downloads/latest/tree-style-tab/latest.xpi", id: "treestyletab@piro.sakura.ne.jp" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/latest/redirector/latest.xpi", id: "redirector@einaregilsson.com" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/latest/saka-key/latest.xpi", id: "{46104586-98c3-407e-a349-290c9ff3594d}" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi", id: "uBlock0@raymondhill.net" },
+    ]
+    # }}}
+
     # distribution policies - https://mozilla.github.io/policy-templates/
     # See also https://github.com/mozilla/policy-templates/blob/master/linux/policies.json
     # {{{
@@ -61,10 +71,34 @@ cask "fuckedfox" do
         "SearchEngines": {
           "PreventInstalls": true,
         },
+        "NoDefaultBookmarks": true,
+        "DontCheckDefaultBrowser": true,
         "Preferences": {
           "browser.aboutwelcome.enabled": false,
           "browser.aboutConfig.showWarning": false,
-        }
+        },
+        "Homepage": {
+          "URL": "about:blank",
+          "Locked": true,
+          "Additional": [],
+          "StartPage": "none",
+        },
+        "Bookmarks": [
+          {"Title": "BOW", "URL": "https://news.ycombinator.com", "Favicon": "https://news.ycombinator.com/favicon.ico", "Placement": "toolbar"}
+        ],
+        "ExtensionSettings": {
+          "*": {
+            "blocked_install_message": "Please adjust Homebrew Cask to configure addons.",
+            # "install_sources": ["https://yourwebsite.com/*"],
+            "installation_mode": "blocked",
+            # "allowed_types": ["extension"]
+          },
+          # "https-everywhere@eff.org": {
+          #   "installation_mode": "allowed"
+          # }
+        }.merge(
+          extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }
+        ),
       }
     }
 
@@ -94,32 +128,6 @@ cask "fuckedfox" do
         pref("toolkit.legacyUserProfileCustomizations.stylesheets", true)
         pref("browser.urlbar.quantumbar", false)
       EOS
-    end
-    # }}}
-
-    # Addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
-    # {{{
-
-    extension_path = "#{staged_path}/Firefox.app/Contents/Resources/distribution/extensions"
-    FileUtils.mkdir_p(extension_path)
-
-    extensions = [
-      { uri: "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi", id: "treestyletab@piro.sakura.ne.jp" },
-      { uri: "https://addons.mozilla.org/firefox/downloads/file/3535009/redirector-3.5.3.xpi", id: "redirector@einaregilsson.com" },
-      { uri: "https://addons.mozilla.org/firefox/downloads/file/3582006/saka_key-1.26.3.xpi", id: "{46104586-98c3-407e-a349-290c9ff3594d}" },
-      { uri: "https://addons.mozilla.org/firefox/downloads/file/4598854/ublock_origin-1.67.0.xpi", id: "uBlock0@raymondhill.net" },
-    ]
-
-    # XXX(pd) 20251101: Wow this is gross.
-    require 'uri'
-    require 'open-uri'
-    extensions.each do |e|
-      URI.open(e[:uri]) do |ext_xpi|
-        File.open("#{extension_path}/#{e[:id]}.xpi", "wb") do |file|
-          file.write(ext_xpi.read)
-        end
-      end
-      puts "Installed #{e[:id]}..."
     end
     # }}}
   end
