@@ -53,6 +53,24 @@ cask "fuckedfox" do
       f.write(policies.to_json)
     end
     # }}}
+
+    # AutoConfig - https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
+    # {{{
+    FileUtils.mkdir_p("#{staged_path}/Firefox.app/Contents/Resources/defaults/pref")
+    File.open("#{staged_path}/Firefox.app/Contents/Resources/defaults/pref/autoconfig.js", 'w') do |f|
+      f.write <<~EOS
+        pref("general.config.filename", "firefox.cfg");
+        pref("general.config.obscure_value", 0);
+      EOS
+    end
+
+    File.open("#{staged_path}/Firefox.app/Contents/Resources/firefox.cfg", 'w') do |f|
+      f.write <<~EOS
+        // IMPORTANT: Start your code on the 2nd line, also this is Javascript
+        pref("paul.proof.of.concept", "yeppo")
+      EOS
+    end
+    # }}}
   end
 
   uninstall quit: "org.mozilla.firefox"
