@@ -97,7 +97,7 @@ cask "fuckedfox" do
           #   "installation_mode": "allowed"
           # }
         }.merge(
-          extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }
+          Hash[extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }]
         ),
       }
     }
