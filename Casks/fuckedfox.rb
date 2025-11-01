@@ -1,6 +1,7 @@
 cask "fuckedfox" do
   version "144.0.2"
 
+  # TODO: Can we hack livecheck to .. do something latest?
   language "en", default: true do
     sha256 "c67e649a9ef2d23c929ca1b9a87b10591e06303cdf0d9e2395e64bcf7bc0f673"
     "en-US"
@@ -31,6 +32,12 @@ cask "fuckedfox" do
   # shim script (https://github.com/Homebrew/homebrew-cask/issues/18809)
   shimscript = "#{staged_path}/firefox.wrapper.sh"
   binary shimscript, target: "firefox"
+
+  resource "tree_style_tabs" do
+    # From https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
+    url "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"
+    sha1 "f0bc6a44d406a57c831044aa45e0965c9475caf1"
+  end
 
   preflight do
     File.write shimscript, <<~EOS
@@ -99,20 +106,15 @@ cask "fuckedfox" do
     # TODO addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
     # {{{
 
-    FileUtils.mkdir_p("#{staged_path}/Firefox.app/Contents/Resources/distribution/extensions")
-    # Additional downloads can be defined as resources and accessed in the
-    # install method. Resources can also be defined inside a stable, devel, or
-    # head block. This mechanism replaces ad-hoc "subformula" classes.
-    tst = resource "tree_style_tabs" do
-      # From https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
-      url "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"
-      sha1 "f0bc6a44d406a57c831044aa45e0965c9475caf1"
-    end
+    extension_path = "#{staged_path}/Firefox.app/Contents/Resources/distribution/extensions"
+    FileUtils.mkdir_p(extension_path)
 
     # Additional downloads can be defined as resources (see above).
     # The stage method will create a temporary directory and yield
     # to a block.
-    tst.stage("distribution/extensions/treestyletab@piro.sakura.ne.jp.xpi")
+    resource("tree_style_tabs").stage(extension_path)
+    FileUtils.mv(extension_path.join("tree_style_tab-4.2.7.xpi"),
+                 extension_path.join("treestyletab@piro.sakura.ne.jp.xpi"))
 
     # }}}
   end
