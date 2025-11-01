@@ -73,7 +73,6 @@ cask "fuckedfox" do
     # }}}
 
     # TODO userChrome.css
-    # TODO addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
 
     # AutoConfig - https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
     # {{{
@@ -94,6 +93,27 @@ cask "fuckedfox" do
         pref("browser.urlbar.quantumbar", false)
       EOS
     end
+    # }}}
+
+    # Addons
+    # TODO addons bundling - https://support.mozilla.org/en-US/kb/deploying-firefox-with-extensions
+    # {{{
+
+    FileUtils.mkdir_p("#{staged_path}/Firefox.app/Contents/Resources/distribution/extensions")
+    # Additional downloads can be defined as resources and accessed in the
+    # install method. Resources can also be defined inside a stable, devel, or
+    # head block. This mechanism replaces ad-hoc "subformula" classes.
+    resource "tree_style_tabs" do
+      # From https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
+      url "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"
+      sha1 "f0bc6a44d406a57c831044aa45e0965c9475caf1"
+    end
+
+    # Additional downloads can be defined as resources (see above).
+    # The stage method will create a temporary directory and yield
+    # to a block.
+    resource("tree_style_tabs").stage("distribution/extensions/treestyletab@piro.sakura.ne.jp.xpi")
+
     # }}}
   end
 
