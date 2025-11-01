@@ -105,6 +105,7 @@ cask "fuckedfox" do
     FileUtils.mkdir_p(extension_path)
 
     # XXX(pd) 20251101: Wow this is gross.
+    require 'open-uri'
     IO.copy_stream(open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"), extension_path.join("treestyletab@piro.sakura.ne.jp.xpi"))
     # }}}
   end
