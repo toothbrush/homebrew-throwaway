@@ -103,7 +103,7 @@ cask "fuckedfox" do
     # Additional downloads can be defined as resources and accessed in the
     # install method. Resources can also be defined inside a stable, devel, or
     # head block. This mechanism replaces ad-hoc "subformula" classes.
-    resource "tree_style_tabs" do
+    tst = resource "tree_style_tabs" do
       # From https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
       url "https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi"
       sha1 "f0bc6a44d406a57c831044aa45e0965c9475caf1"
@@ -112,7 +112,7 @@ cask "fuckedfox" do
     # Additional downloads can be defined as resources (see above).
     # The stage method will create a temporary directory and yield
     # to a block.
-    resource("tree_style_tabs").stage("distribution/extensions/treestyletab@piro.sakura.ne.jp.xpi")
+    tst.stage("distribution/extensions/treestyletab@piro.sakura.ne.jp.xpi")
 
     # }}}
   end
