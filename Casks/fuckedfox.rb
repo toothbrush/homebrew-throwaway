@@ -39,6 +39,9 @@ cask "fuckedfox" do
     EOS
 
     # XXX(pd) 20251101: Attempt to .. set things up reasonably.
+
+    # distribution policies - https://mozilla.github.io/policy-templates/
+    # {{{
     policies = {
       "policies": {
         "DisableAppUpdate": true
@@ -49,6 +52,7 @@ cask "fuckedfox" do
     File.open("#{staged_path}/Firefox.app/Contents/Resources/distribution/policies.json", 'w') do |f|
       f.write(policies.to_json)
     end
+    # }}}
   end
 
   uninstall quit: "org.mozilla.firefox"
