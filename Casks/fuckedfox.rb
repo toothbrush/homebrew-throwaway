@@ -39,6 +39,19 @@ cask "fuckedfox" do
     EOS
   end
 
+  # XXX(pd) 20251101: Attempt to .. set things up reasonably.
+  postflight do
+    policies = {
+      "policies": {
+        "DisableAppUpdate": true
+      }
+    }
+
+    File.open("#{appdir}/Firefox.app/Contents/Resources/distribution/policies.json", 'w') do |f|
+      f.write(policies.to_json)
+    end
+  end
+
   uninstall quit: "org.mozilla.firefox"
 
   zap trash: [
