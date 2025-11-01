@@ -37,17 +37,15 @@ cask "fuckedfox" do
       #!/bin/bash
       exec '#{appdir}/Firefox.app/Contents/MacOS/firefox' "$@"
     EOS
-  end
 
-  # XXX(pd) 20251101: Attempt to .. set things up reasonably.
-  postflight do
+    # XXX(pd) 20251101: Attempt to .. set things up reasonably.
     policies = {
       "policies": {
         "DisableAppUpdate": true
       }
     }
 
-    File.open("#{appdir}/Firefox.app/Contents/Resources/distribution/policies.json", 'w') do |f|
+    File.open("#{staged_path}/Firefox.app/Contents/Resources/distribution/policies.json", 'w') do |f|
       f.write(policies.to_json)
     end
   end
