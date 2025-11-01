@@ -105,8 +105,7 @@ cask "fuckedfox" do
     FileUtils.mkdir_p(extension_path)
 
     # XXX(pd) 20251101: Wow this is gross.
-    require 'open-uri'
-    open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi") do |image|
+    URI.open("https://addons.mozilla.org/firefox/downloads/file/4602712/tree_style_tab-4.2.7.xpi") do |image|
       File.open("#{extension_path}/treestyletab@piro.sakura.ne.jp.xpi", "wb") do |file|
         file.write(image.read)
       end
