@@ -38,6 +38,15 @@ cask "fuckedfox" do
       exec '#{appdir}/Firefox.app/Contents/MacOS/firefox' "$@"
     EOS
 
+    system_command "xattr",
+                   args: ["-dr", "com.apple.application-instance", "#{staged_path}/Firefox.app"]
+    system_command "xattr",
+                   args: ["-dr", "com.apple.macl", "#{staged_path}/Firefox.app"]
+    system_command "xattr",
+                   args: ["-dr", "com.apple.provenance", "#{staged_path}/Firefox.app"]
+    system_command "xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{staged_path}/Firefox.app"]
+
     # XXX(pd) 20251101: Attempt to .. set things up reasonably.
 
     # distribution policies - https://mozilla.github.io/policy-templates/
