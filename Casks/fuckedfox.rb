@@ -44,7 +44,15 @@ cask "fuckedfox" do
     # {{{
     policies = {
       "policies": {
-        "DisableAppUpdate": true
+        "DisableAppUpdate": true,
+        "SkipTermsOfUse": true,
+        "SearchEngines": {
+          "PreventInstalls": true,
+        },
+        "Preferences": {
+          "browser.aboutwelcome.enabled": false,
+          "browser.aboutConfig.showWarning": false,
+        }
       }
     }
 
@@ -67,7 +75,10 @@ cask "fuckedfox" do
     File.open("#{staged_path}/Firefox.app/Contents/Resources/firefox.cfg", 'w') do |f|
       f.write <<~EOS
         // IMPORTANT: Start your code on the 2nd line, also this is Javascript
-        pref("paul.proof.of.concept", "yeppo")
+        pref("app.normandy.first_run", false)
+        pref("sidebar.main.tools", "history,bookmarks") // no AI plz
+        pref("toolkit.legacyUserProfileCustomizations.stylesheets", true)
+        pref("browser.urlbar.quantumbar", false)
       EOS
     end
     # }}}
