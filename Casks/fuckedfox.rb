@@ -45,6 +45,7 @@ cask "fuckedfox" do
       }
     }
 
+    FileUtils.mkdir_p("#{staged_path}/Firefox.app/Contents/Resources/distribution")
     File.open("#{staged_path}/Firefox.app/Contents/Resources/distribution/policies.json", 'w') do |f|
       f.write(policies.to_json)
     end
