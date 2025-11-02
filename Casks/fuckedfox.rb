@@ -148,8 +148,6 @@ cask "fuckedfox" do
     end
     # }}}
 
-    # TODO userChrome.css
-
     # AutoConfig - https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
     # {{{
     FileUtils.mkdir_p("#{staged_path}/Firefox.app/Contents/Resources/defaults/pref")
