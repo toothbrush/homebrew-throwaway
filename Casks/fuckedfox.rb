@@ -72,25 +72,48 @@ cask "fuckedfox" do
         "BackgroundAppUpdate": false,
         "CaptivePortal": false,
         # todo cookies session lifetime SanitizeOnShutdown
+        "Cookies": {
+          "Allow": ["https://seats.aero"],
+          "Locked": true,
+          "Behavior": "reject-tracker-and-partition-foreign",
+          "BehaviorPrivateBrowsing": "reject-tracker-and-partition-foreign",
+        },
         "DisableAppUpdate": true,
+        "DisableBuiltinPDFViewer": true,
         "DisableFeedbackCommands": true,
         "DisableFirefoxAccounts": true,
         "DisableFirefoxScreenshots": true,
         "DisableFirefoxStudies": true,
+        "DisableMasterPasswordCreation": true,
         "DisablePocket": true,
         "DisableProfileImport": true,
+        "DisableProfileRefresh": true,
+        "DisableSetDesktopBackground": true,
         "DisableSystemAddonUpdate": true,
         "DisableTelemetry": true,
+        "DisplayBookmarksToolbar": "always",
         "DontCheckDefaultBrowser": true,
-        "ExtensionUpdate": false,
+        "EnableTrackingProtection": {
+          "Value": true,
+          "Locked": true,
+          "Cryptomining": true,
+          "Fingerprinting": true,
+          "EmailTracking": true,
+          "SuspectedFingerprinting": true,
+        },
+        "EncryptedMediaExtensions": {
+          "Enabled": false,
+          "Locked": true,
+        },
         "ExtensionSettings": {
           "*": {
             "blocked_install_message": "Please adjust Homebrew Cask to configure addons.",
             "installation_mode": "blocked",
           },
-        }.merge(
+        }.merge( # XXX(pd) 20251102: Hm, consider just being literal here, then setting `private_browsing` for uBlock.
           Hash[extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }]
         ),
+        "ExtensionUpdate": true,
         "FirefoxHome": {
           "Search": false,
           "TopSites": false,
@@ -107,16 +130,78 @@ cask "fuckedfox" do
           "ImproveSuggest": false,
           "Locked": true
         },
+        "GenerativeAI": {
+          "Enabled": false,
+          "Chatbot": false,
+          "LinkPreviews": false,
+          "TabGroups": false,
+          "Locked": true,
+        },
         "Homepage": {
           "URL": "about:blank",
           "Locked": true,
           "Additional": [],
           "StartPage": "none",
         },
+        "HttpsOnlyMode": "enabled", # HTTPS-Only Mode is on by default, but the user can turn it off.
+        "InstallAddonsPermission": {
+          "Allow": [],
+          "Default": false,
+        },
+        "ManagedBookmarks": [
+          {"toplevel_name": "Managed bookmarks"},
+          {"url": "https://news.ycombinator.com", "name": "BOW"},
+        ],
         "NewTabPage": false,
         "NoDefaultBookmarks": true,
+        "OfferToSaveLogins": false,
         "OverrideFirstRunPage": "",
         "OverridePostUpdatePage": "",
+        "PasswordManagerEnabled": false,
+        "PDFjs": {
+          "Enabled": false,
+        },
+        "Permissions": {
+          "Camera": { # Explicit origins only in Allow/Block, no wildcards.
+            "Allow": [], "Block": [],
+            "BlockNewRequests": true,
+            "Locked": false,
+          },
+          "Microphone": {
+            "Allow": [], "Block": [],
+            "BlockNewRequests": true,
+            "Locked": false,
+          },
+          "Location": {
+            "Allow": [], "Block": [],
+            "BlockNewRequests": true,
+            "Locked": false,
+          },
+          "Notifications": {
+            "Allow": [], "Block": [],
+            "BlockNewRequests": true,
+            "Locked": false,
+          },
+          "Autoplay": {
+            "Default": "block-audio-video",
+            "Locked": false,
+          },
+          "VirtualReality": {
+            "Allow": [], "Block": [],
+            "BlockNewRequests": true,
+            "Locked": false,
+          },
+          "ScreenShare": {
+            "Allow": [], "Block": [],
+            "BlockNewRequests": true,
+            "Locked": false,
+          }
+        },
+        "PopupBlocking": {
+          "Allow": [],
+          "Default": true,
+          "Locked": false,
+        },
         "Preferences": {
           "browser.aboutwelcome.enabled": false,
           "browser.aboutConfig.showWarning": false,
@@ -135,9 +220,6 @@ cask "fuckedfox" do
           "FirefoxLabs": false,
           "Locked": false
         },
-        "Bookmarks": [ # ManagedBookmarks is the new way
-          {"Title": "BOW", "URL": "https://news.ycombinator.com", "Favicon": "https://news.ycombinator.com/favicon.ico", "Placement": "toolbar"}
-        ],
       }
     }
 
