@@ -1,9 +1,9 @@
 # Some Homebrew formulae i want
 
 ## How do I install these formulae?
-`brew install toothbrush/toothbrush/<formula>`
+`brew install toothbrush/throwaway/<formula>`
 
-Or `brew tap toothbrush/toothbrush` and then `brew install <formula>`.
+Or `brew tap toothbrush/throwaway` and then `brew install <formula>`.
 
 ## How to update a formula?
 
