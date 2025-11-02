@@ -160,15 +160,9 @@ cask "fuckedfox" do
       EOS
     end
 
-    File.open("#{staged_path}/Firefox.app/Contents/Resources/firefox.cfg", 'w') do |f|
-      f.write <<~EOS
-        // IMPORTANT: Start your code on the 2nd line, also this is Javascript
-        pref("app.normandy.first_run", false);
-        pref("sidebar.main.tools", "history,bookmarks"); // no AI plz
-        pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-        pref("browser.urlbar.quantumbar", false);
-      EOS
-    end
+    # Put our firefox.cfg (which, confusingly, is JavaScript) in place:
+    FileUtils.cp("#{__dir__}/firefox.cfg.js",
+                 "#{staged_path}/Firefox.app/Contents/Resources/firefox.cfg")
     # }}}
   end
 
