@@ -67,15 +67,30 @@ cask "fuckedfox" do
     policies = {
       "policies": {
         "AppUpdateURL": "http://127.0.0.1/",
+        "AutofillAddressEnabled": false,
+        "AutofillCreditCardEnabled": false,
+        "BackgroundAppUpdate": false,
         "CaptivePortal": false,
+        # todo cookies session lifetime SanitizeOnShutdown
+        "DisableAppUpdate": true,
         "DisableFeedbackCommands": true,
         "DisableFirefoxAccounts": true,
         "DisableFirefoxScreenshots": true,
         "DisableFirefoxStudies": true,
         "DisablePocket": true,
+        "DisableProfileImport": true,
         "DisableSystemAddonUpdate": true,
         "DisableTelemetry": true,
+        "DontCheckDefaultBrowser": true,
         "ExtensionUpdate": false,
+        "ExtensionSettings": {
+          "*": {
+            "blocked_install_message": "Please adjust Homebrew Cask to configure addons.",
+            "installation_mode": "blocked",
+          },
+        }.merge(
+          Hash[extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }]
+        ),
         "FirefoxHome": {
           "Search": false,
           "TopSites": false,
@@ -92,10 +107,25 @@ cask "fuckedfox" do
           "ImproveSuggest": false,
           "Locked": true
         },
+        "Homepage": {
+          "URL": "about:blank",
+          "Locked": true,
+          "Additional": [],
+          "StartPage": "none",
+        },
         "NewTabPage": false,
+        "NoDefaultBookmarks": true,
         "OverrideFirstRunPage": "",
         "OverridePostUpdatePage": "",
+        "Preferences": {
+          "browser.aboutwelcome.enabled": false,
+          "browser.aboutConfig.showWarning": false,
+        },
+        "SearchEngines": {
+          "PreventInstalls": true,
+        },
         "SearchSuggestEnabled": false,
+        "SkipTermsOfUse": true,
         "UserMessaging": {
           "ExtensionRecommendations": false,
           "FeatureRecommendations": false,
@@ -105,40 +135,9 @@ cask "fuckedfox" do
           "FirefoxLabs": false,
           "Locked": false
         },
-        "DisableAppUpdate": true,
-        "SkipTermsOfUse": true,
-        "SearchEngines": {
-          "PreventInstalls": true,
-        },
-        "NoDefaultBookmarks": true,
-        "DisableProfileImport": true,
-        "DontCheckDefaultBrowser": true,
-        "Preferences": {
-          "browser.aboutwelcome.enabled": false,
-          "browser.aboutConfig.showWarning": false,
-        },
-        "Homepage": {
-          "URL": "about:blank",
-          "Locked": true,
-          "Additional": [],
-          "StartPage": "none",
-        },
-        "Bookmarks": [
+        "Bookmarks": [ # ManagedBookmarks is the new way
           {"Title": "BOW", "URL": "https://news.ycombinator.com", "Favicon": "https://news.ycombinator.com/favicon.ico", "Placement": "toolbar"}
         ],
-        "ExtensionSettings": {
-          "*": {
-            "blocked_install_message": "Please adjust Homebrew Cask to configure addons.",
-            # "install_sources": ["https://yourwebsite.com/*"],
-            "installation_mode": "blocked",
-            # "allowed_types": ["extension"]
-          },
-          # "https-everywhere@eff.org": {
-          #   "installation_mode": "allowed"
-          # }
-        }.merge(
-          Hash[extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }]
-        ),
       }
     }
 
