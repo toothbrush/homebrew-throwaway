@@ -164,6 +164,49 @@ cask "fuckedfox" do
     FileUtils.cp("#{__dir__}/firefox.cfg.js",
                  "#{staged_path}/Firefox.app/Contents/Resources/firefox.cfg")
     # }}}
+
+    # Hack up a profile folder with some defaults
+    # {{{
+    FileUtils.mkdir_p(File.expand_path("~/Library/Application Support/Firefox/Profiles/8qha96fn.default"))
+    FileUtils.mkdir_p(File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release"))
+    File.open(File.expand_path("~/Library/Application Support/Firefox/installs.ini"), 'w') do |f|
+      f.write <<~EOS
+        [2656FF1E876E9973]
+        Default=Profiles/jlp5eosb.default-release
+        Locked=1
+
+      EOS
+    end
+
+    File.open(File.expand_path("~/Library/Application Support/Firefox/profiles.ini"), 'w') do |f|
+      f.write <<~EOS
+        [Profile1]
+        Name=default
+        IsRelative=1
+        Path=Profiles/8qha96fn.default
+        Default=1
+
+        [Profile0]
+        Name=default-release
+        IsRelative=1
+        Path=Profiles/jlp5eosb.default-release
+
+        [General]
+        StartWithLastProfile=1
+        Version=2
+
+        [Install2656FF1E876E9973]
+        Default=Profiles/jlp5eosb.default-release
+        Locked=1
+
+      EOS
+    end
+
+    # Sweet, now we have a spot where we can put customisations.
+    FileUtils.mkdir_p(File.expand_path("~/Library/Application Support/Firefox/Profiles/8qha96fn.default/chrome"))
+    FileUtils.cp("#{__dir__}/userChrome.css",
+                 "~/Library/Application Support/Firefox/Profiles/8qha96fn.default/chrome/userChrome.css")
+    # }}}
   end
 
   uninstall quit: "org.mozilla.firefox"
