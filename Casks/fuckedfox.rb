@@ -203,9 +203,9 @@ cask "fuckedfox" do
     end
 
     # Sweet, now we have a spot where we can put customisations.
-    FileUtils.mkdir_p(File.expand_path("~/Library/Application Support/Firefox/Profiles/8qha96fn.default/chrome"))
+    FileUtils.mkdir_p(File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/chrome"))
     FileUtils.cp("#{__dir__}/userChrome.css",
-                 File.expand_path("~/Library/Application Support/Firefox/Profiles/8qha96fn.default/chrome/userChrome.css"))
+                 File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/chrome/userChrome.css"))
     # }}}
   end
 
