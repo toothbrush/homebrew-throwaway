@@ -66,6 +66,45 @@ cask "fuckedfox" do
     # {{{
     policies = {
       "policies": {
+        "AppUpdateURL": "http://127.0.0.1/",
+        "CaptivePortal": false,
+        "DisableFeedbackCommands": true,
+        "DisableFirefoxAccounts": true,
+        "DisableFirefoxScreenshots": true,
+        "DisableFirefoxStudies": true,
+        "DisablePocket": true,
+        "DisableSystemAddonUpdate": true,
+        "DisableTelemetry": true,
+        "ExtensionUpdate": false,
+        "FirefoxHome": {
+          "Search": false,
+          "TopSites": false,
+          "SponsoredTopSites": false,
+          "Highlights": false,
+          "Pocket": false,
+          "SponsoredPocket": false,
+          "Snippets": false,
+          "Locked": true
+        },
+        "FirefoxSuggest": {
+          "WebSuggestions": false,
+          "SponsoredSuggestions": false,
+          "ImproveSuggest": false,
+          "Locked": true
+        },
+        "NewTabPage": false,
+        "OverrideFirstRunPage": "",
+        "OverridePostUpdatePage": "",
+        "SearchSuggestEnabled": false,
+        "UserMessaging": {
+          "ExtensionRecommendations": false,
+          "FeatureRecommendations": false,
+          "UrlbarInterventions": false,
+          "SkipOnboarding": true,
+          "MoreFromMozilla": false,
+          "FirefoxLabs": false,
+          "Locked": false
+        },
         "DisableAppUpdate": true,
         "SkipTermsOfUse": true,
         "SearchEngines": {
