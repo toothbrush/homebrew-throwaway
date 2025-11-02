@@ -1,7 +1,7 @@
 cask "fuckedfox" do
   version "144.0.2"
 
-  # TODO: Can we hack livecheck to .. do something latest?
+  # TODO: ESR version.
   language "en", default: true do
     sha256 "c67e649a9ef2d23c929ca1b9a87b10591e06303cdf0d9e2395e64bcf7bc0f673"
     "en-US"
@@ -72,6 +72,7 @@ cask "fuckedfox" do
           "PreventInstalls": true,
         },
         "NoDefaultBookmarks": true,
+        "DisableProfileImport": true,
         "DontCheckDefaultBrowser": true,
         "Preferences": {
           "browser.aboutwelcome.enabled": false,
