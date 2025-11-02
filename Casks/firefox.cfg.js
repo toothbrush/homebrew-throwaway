@@ -3,6 +3,9 @@ pref("app.normandy.first_run", false);
 pref("sidebar.main.tools", "history,bookmarks"); // no AI plz
 pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 pref("browser.urlbar.quantumbar", false);
+user_pref("browser.startup.page", 3); // restore tabs?
+pref("browser.warnOnQuit", false);
+pref("browser.warnOnQuitShortcut", false);
 
 // from https://www.reddit.com/r/firefox/comments/1c67r0c/adding_a_chrome_folder_to_all_new_profiles/
 const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
