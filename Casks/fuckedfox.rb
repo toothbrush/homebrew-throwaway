@@ -73,7 +73,12 @@ cask "fuckedfox" do
         "CaptivePortal": false,
         # todo cookies session lifetime SanitizeOnShutdown
         "Cookies": {
-          "Allow": ["https://seats.aero"],
+          "Allow": [
+            "https://seats.aero",
+            "https://github.com",
+            "https://google.com",
+            "https://accounts.google.com",
+          ],
           "Locked": true,
           "Behavior": "reject-tracker-and-partition-foreign",
           "BehaviorPrivateBrowsing": "reject-tracker-and-partition-foreign",
