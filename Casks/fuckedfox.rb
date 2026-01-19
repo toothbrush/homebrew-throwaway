@@ -1,5 +1,5 @@
 cask "fuckedfox" do
-  version "144.0.2"
+  version "147.0.1"
 
   # TODO: ESR version.
   language "en", default: true do
