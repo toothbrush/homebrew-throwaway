@@ -3,7 +3,7 @@ cask "fuckedfox" do
 
   # TODO: ESR version.
   language "en", default: true do
-    sha256 "c67e649a9ef2d23c929ca1b9a87b10591e06303cdf0d9e2395e64bcf7bc0f673"
+    sha256 "bd30946381af47301c511df6f617d9b9a0b6cca04ecbeac55825db14808043f9"
     "en-US"
   end
 
