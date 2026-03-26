@@ -6,6 +6,8 @@ cask "fuckedfox" do
     "en-US"
   end
 
+  # TODO i'd love to have a way to persist my bookmarks (and maybe some extension prefs?) over zap/install cycles.
+
   url "https://download-installer.cdn.mozilla.net/pub/firefox/releases/#{version}esr/mac/#{language}/Firefox%20#{version}esr.dmg",
       verified: "download-installer.cdn.mozilla.net/pub/firefox/releases/"
   name "Mozilla Firefox"
