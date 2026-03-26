@@ -1,13 +1,12 @@
 cask "fuckedfox" do
-  version "147.0.1"
+  version "140.9.0"
 
-  # TODO: ESR version.
   language "en", default: true do
-    sha256 "bd30946381af47301c511df6f617d9b9a0b6cca04ecbeac55825db14808043f9"
+    sha256 "5fc68c92c5e383111f7a5d7be47a79fba193351a1f86fb1d2b31f573ff18e0d1"
     "en-US"
   end
 
-  url "https://download-installer.cdn.mozilla.net/pub/firefox/releases/#{version}/mac/#{language}/Firefox%20#{version}.dmg",
+  url "https://download-installer.cdn.mozilla.net/pub/firefox/releases/#{version}esr/mac/#{language}/Firefox%20#{version}esr.dmg",
       verified: "download-installer.cdn.mozilla.net/pub/firefox/releases/"
   name "Mozilla Firefox"
   desc "Web browser"
@@ -16,7 +15,7 @@ cask "fuckedfox" do
   livecheck do
     url "https://product-details.mozilla.org/1.0/firefox_versions.json"
     strategy :json do |json|
-      json["LATEST_FIREFOX_VERSION"]
+      json["FIREFOX_ESR"].sub(/esr$/, "")
     end
   end
 
