@@ -306,15 +306,22 @@ cask "fuckedfox" do
                  File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/chrome/userChrome.css"))
     # }}}
 
-    # Restore bookmarks from backup if available
+    # Restore profile data from backup if available
     # {{{
     backup_dir = File.expand_path("~/.cache/fuckedfox")
-    %w[places.sqlite favicons.sqlite].each do |f|
+    profile_dir = File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release")
+    backup_files = [
+      "places.sqlite",          # bookmarks and history
+      "favicons.sqlite",        # site icons for bookmarks
+      "storage-sync-v2.sqlite", # extension data (browser.storage.sync)
+      "extensions.json",        # extension UUID mappings
+    ]
+    backup_files.each do |f|
       src = File.join(backup_dir, f)
-      if File.exist?(src)
-        FileUtils.cp(src, File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/#{f}"))
-      end
+      FileUtils.cp(src, File.join(profile_dir, f)) if File.exist?(src)
     end
+    src = File.join(backup_dir, "storage")
+    FileUtils.cp_r(src, File.join(profile_dir, "storage")) if File.directory?(src) # extension data (browser.storage.local, IndexedDB)
     # }}}
   end
 
@@ -322,10 +329,18 @@ cask "fuckedfox" do
     backup_dir = File.expand_path("~/.cache/fuckedfox")
     profile_dir = File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release")
     FileUtils.mkdir_p(backup_dir)
-    %w[places.sqlite favicons.sqlite].each do |f|
+    backup_files = [
+      "places.sqlite",          # bookmarks and history
+      "favicons.sqlite",        # site icons for bookmarks
+      "storage-sync-v2.sqlite", # extension data (browser.storage.sync)
+      "extensions.json",        # extension UUID mappings
+    ]
+    backup_files.each do |f|
       src = File.join(profile_dir, f)
       FileUtils.cp(src, backup_dir) if File.exist?(src)
     end
+    src = File.join(profile_dir, "storage")
+    FileUtils.cp_r(src, File.join(backup_dir, "storage")) if File.directory?(src) # extension data (browser.storage.local, IndexedDB)
   end
 
   uninstall quit: "org.mozilla.firefox"
