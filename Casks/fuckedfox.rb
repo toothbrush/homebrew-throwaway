@@ -305,43 +305,6 @@ cask "fuckedfox" do
     FileUtils.cp("#{__dir__}/userChrome.css",
                  File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/chrome/userChrome.css"))
     # }}}
-
-    # Symlink profile data from ~/.cache/fuckedfox into the profile.
-    # Data lives outside the zap blast radius so it survives zap/reinstall.
-    # On first reinstall, existing real files are migrated to cache automatically.
-    # {{{
-    cache_dir = File.expand_path("~/.cache/fuckedfox")
-    profile_dir = File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release")
-    FileUtils.mkdir_p(cache_dir)
-
-    persist_files = [
-      "places.sqlite",          # bookmarks and history
-      "favicons.sqlite",        # site icons for bookmarks
-      "storage-sync-v2.sqlite", # extension data (browser.storage.sync)
-      "extensions.json",        # extension UUID mappings
-    ]
-    persist_files.each do |f|
-      cache_file = File.join(cache_dir, f)
-      profile_file = File.join(profile_dir, f)
-      if File.exist?(profile_file) && !File.symlink?(profile_file)
-        FileUtils.mv(profile_file, cache_file)
-        FileUtils.ln_s(cache_file, profile_file)
-      elsif File.exist?(cache_file) && !File.exist?(profile_file)
-        FileUtils.ln_s(cache_file, profile_file)
-      end
-    end
-
-    # extension data (browser.storage.local, IndexedDB)
-    cache_storage = File.join(cache_dir, "storage")
-    profile_storage = File.join(profile_dir, "storage")
-    if File.directory?(profile_storage) && !File.symlink?(profile_storage)
-      FileUtils.rm_rf(cache_storage) if File.exist?(cache_storage)
-      FileUtils.mv(profile_storage, cache_storage)
-      FileUtils.ln_s(cache_storage, profile_storage)
-    elsif File.directory?(cache_storage) && !File.exist?(profile_storage)
-      FileUtils.ln_s(cache_storage, profile_storage)
-    end
-    # }}}
   end
 
   uninstall quit: "org.mozilla.firefox"
