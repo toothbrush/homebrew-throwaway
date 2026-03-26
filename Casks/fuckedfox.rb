@@ -305,6 +305,27 @@ cask "fuckedfox" do
     FileUtils.cp("#{__dir__}/userChrome.css",
                  File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/chrome/userChrome.css"))
     # }}}
+
+    # Restore bookmarks from backup if available
+    # {{{
+    backup_dir = File.expand_path("~/.cache/fuckedfox")
+    %w[places.sqlite favicons.sqlite].each do |f|
+      src = File.join(backup_dir, f)
+      if File.exist?(src)
+        FileUtils.cp(src, File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release/#{f}"))
+      end
+    end
+    # }}}
+  end
+
+  uninstall_preflight do
+    backup_dir = File.expand_path("~/.cache/fuckedfox")
+    profile_dir = File.expand_path("~/Library/Application Support/Firefox/Profiles/jlp5eosb.default-release")
+    FileUtils.mkdir_p(backup_dir)
+    %w[places.sqlite favicons.sqlite].each do |f|
+      src = File.join(profile_dir, f)
+      FileUtils.cp(src, backup_dir) if File.exist?(src)
+    end
   end
 
   uninstall quit: "org.mozilla.firefox"
