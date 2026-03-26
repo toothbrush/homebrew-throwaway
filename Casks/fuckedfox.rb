@@ -105,6 +105,10 @@ cask "fuckedfox" do
           "Fingerprinting": true,
           "EmailTracking": true,
           "SuspectedFingerprinting": true,
+          "Exceptions": [
+            "https://github.com",
+            "https://github.dev",
+          ],
         },
         "EncryptedMediaExtensions": {
           "Enabled": false,
