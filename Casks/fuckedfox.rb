@@ -71,7 +71,6 @@ cask "fuckedfox" do
         "AutofillCreditCardEnabled": false,
         "BackgroundAppUpdate": false,
         "CaptivePortal": false,
-        # todo cookies session lifetime SanitizeOnShutdown
         "Cookies": {
           "Allow": [
             "https://seats.aero",
@@ -79,6 +78,7 @@ cask "fuckedfox" do
             "https://google.com",
             "https://accounts.google.com",
           ],
+          "ExpireAtSessionEnd": true,
           "Locked": true,
           "Behavior": "reject-tracker-and-partition-foreign",
           "BehaviorPrivateBrowsing": "reject-tracker-and-partition-foreign",
@@ -219,6 +219,17 @@ cask "fuckedfox" do
           "PreventInstalls": true,
         },
         "SearchSuggestEnabled": false,
+        "SanitizeOnShutdown": {
+          "Cache": true,
+          "Cookies": true,
+          "Downloads": true,
+          "FormData": true,
+          "History": true,
+          "Sessions": true,
+          "SiteSettings": true,
+          "OfflineApps": true,
+          "Locked": true,
+        },
         "SkipTermsOfUse": true,
         "UserMessaging": {
           "ExtensionRecommendations": false,
