@@ -55,7 +55,7 @@ cask "fuckedfox" do
     extensions = [
       { uri: "https://addons.mozilla.org/firefox/downloads/latest/tree-style-tab/latest.xpi", id: "treestyletab@piro.sakura.ne.jp" },
       { uri: "https://addons.mozilla.org/firefox/downloads/latest/redirector/latest.xpi", id: "redirector@einaregilsson.com" },
-      { uri: "https://addons.mozilla.org/firefox/downloads/latest/saka-key/latest.xpi", id: "{46104586-98c3-407e-a349-290c9ff3594d}" },
+      { uri: "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi", id: "{d7742d87-e61d-4b78-b8a1-b469842139fa}" },
       { uri: "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi", id: "uBlock0@raymondhill.net" },
     ]
     # }}}
