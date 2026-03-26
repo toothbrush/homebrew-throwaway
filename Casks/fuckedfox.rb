@@ -119,8 +119,8 @@ cask "fuckedfox" do
             "blocked_install_message": "Please adjust Homebrew Cask to configure addons.",
             "installation_mode": "blocked",
           },
-        }.merge( # XXX(pd) 20251102: Hm, consider just being literal here, then setting `private_browsing` for uBlock.
-          Hash[extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri]}] }]
+        }.merge(
+          Hash[extensions.collect { |ext| [ext[:id], {"installation_mode": "force_installed", "install_url": ext[:uri], "allowed_in_private_browsing": true}] }]
         ),
         "ExtensionUpdate": true,
         "FirefoxHome": {
